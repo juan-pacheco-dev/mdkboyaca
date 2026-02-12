@@ -12,8 +12,8 @@ $mysqli = mysqli_init();
 mysqli_real_connect(
     $mysqli,
     'localhost',
-    'mdkboyac_admin',           // Usuario MySQL
-    'MdkBoyaca2025!Tkd',            // Contraseña MySQL (cámbiala)
+    'root',           // Usuario MySQL
+    '',           
     'mdkboyac_mdk_boyaca'        // Nombre de la base de datos
 );
 
