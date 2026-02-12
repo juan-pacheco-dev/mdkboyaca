@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historia - MDKBoyacá-Taekwondo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="tienda.css">
+
+  <!-- Librerías externas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/script.js" defer></script>
+  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar_tienda">
+  <!-- Logo -->
+  <a href="index.php" class="logo">
+    <img src="img/logo-mdk.jpg" alt="Logo MDK Boyacá" class="logo-img" />
+  </a>
+
+  <!-- Menú colapsable -->
+  <ul class="nav-links">
+    <li><a href="index.php">Volver</a></li>
+  </ul>
+
+  <!-- Botón hamburguesa -->
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+  <main>
+    <section class="hero-historia">
+      <div class="overlay-historia"></div>
+      <div class="hero-content-historia">
+        <br>
+        <h1>Historia de MDKBoyacá-Taekwondo</h1>
+        <p>Conoce nuestros orígenes y trayectoria</p>
+      </div>
+    </section>
+
+    <section class="content-section-historia" data-aos="fade-up" data-aos-duration="2000">
+      <div class="container-historia">
+        <h2>Nuestra Historia</h2>
+        <div class="history-text">
+          <p>Fundado el 23 de febrero de 1998 por el Maestro Andrés Sánchez, motivado por la pasión de transformar vidas utilizando el Taekwondo como herramienta de formación y educación integral, interiorizando como pedagogo que un niño necesita ser feliz, no solo el mejor.</p>
+
+<p>Ubicación: Tunja, Boyacá. Edificio Chinchilla, 3er piso. Primera clase el 23 de febrero de 1998.</p>
+
+<p>Abril de 1998: Bomba Bríos, 2do piso. Primera promoción de grados KUP.</p>
+
+<p>Septiembre de 1998: Gimnasio Olimpus, 2do piso. Se forman los primeros niños cinturones negro, primer niño Sain Alirio Sánchez, quien llegó a ser el primer deportista seleccionado para Colombia Junior de la ciudad de Tunja, y primera niña Eliana Astrid Sierra Ramírez, integrante de la selección Boyacá Junior.</p>
+
+<p>Desde septiembre de 2008 hasta la actualidad: Calle 21 #11-66.</p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTON WHATSAPP -->
+  <a href="https://api.whatsapp.com/send?phone=573124514555&text=Hola!%20Quiero%20más%20información."
+     class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- BOTON INSTAGRAM -->
+  <a href="https://www.instagram.com/mdkboyaca/"
+    class="instagram-float" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <!-- BOTON FACEBOOK -->
+  <a href="https://www.facebook.com/MDKBoyaca"
+    class="facebook-float" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- FOOTER (Copiado directamente de tu index.html) -->
+  <footer>
+    <div class="footer-content">
+      <!-- Instagram -->
+      <div class="social-media">
+        <p>
+          <i class="fab fa-instagram"></i>
+          <a href="https://www.instagram.com/mdkboyaca/" target="_blank" class="instagram-link">
+            @mdkboyacá
+          </a>
+        </p>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="contact-info">
+        <p>
+          <i class="fab fa-whatsapp"></i>
+          <a href="https://wa.me/573124514555" target="_blank">
+            +57 312 4514555
+          </a>
+        </p>
+      </div>
+
+      <!-- Dirección -->
+      <div class="contact-info">
+        <p>
+          <i class="fas fa-map-marker-alt"></i>
+          Calle 21 No 11 - 66, Tunja
+        </p>
+      </div>
+    </div>
+
+    <p>MDKBoyacá</p>
+    <p>Página Web by: Programador Juan Ramírez</p>
+  </footer>
+
+  <!-- Script hamburguesa -->
+<script>
+const hamburger = document.querySelector('.navbar_tienda .hamburger');
+const navLinks  = document.querySelector('.navbar_tienda .nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+}
+</script>
+
+    <script>
+    AOS.init();
+    const swiper = new Swiper(".mySwiper", {
+      loop: true,
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+    });
+  </script>
+
+</body>
+</html>

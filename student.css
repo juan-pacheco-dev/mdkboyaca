@@ -1,0 +1,302 @@
+/* === AQUÍ TIENES EL CONTENEDOR GENERAL DEL PERFIL === */
+.profile-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Esta es la tarjeta principal con la foto y los datos */
+.profile-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+}
+
+/* Aquí controlas la foto de perfil */
+.profile-photo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-photo img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #1565c0;
+}
+
+/* En esta parte tienes la información del usuario */
+.profile-info h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: #1565c0;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.profile-list li {
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.profile-list strong {
+  color: #1565c0;
+}
+
+/* Aquí tienes el diseño del badge para el cinturón */
+.belt-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+/* Aquí configuras los colores según el cinturón */
+.belt--blanco {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.belt--amarillo {
+  background: #f1c40f;
+  color: #000;
+}
+
+.belt--verde {
+  background: #27ae60;
+  color: #fff;
+}
+
+.belt--azul {
+  background: #2980b9;
+  color: #fff;
+}
+
+.belt--rojo {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.belt--negro {
+  background: #2c3e50;
+  color: #fff;
+}
+
+/* Este es el menú de navegación para el estudiante */
+section .navbar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  padding: 10px 20px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section {
+  padding-top: 90px !important;
+  /* se ajusta al alto del navbar */
+}
+
+/* Aquí manejas la info del usuario y botones del menú */
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Aquí tienes el pie de página (Footer) */
+.site-footer {
+  margin-top: 40px;
+  background: #0d47a1;
+  color: #e3f2fd;
+  text-align: center;
+  padding: 16px;
+  font-size: 0.9rem;
+}
+
+/* ====== AQUÍ AJUSTAS EL DISEÑO PARA MÓVILES (RESPONSIVE) ====== */
+
+/* Tablets y <= 992px */
+@media (max-width: 992px) {
+  .profile-card {
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+/* Móviles / pantallas pequeñas */
+@media (max-width: 768px) {
+  section {
+    padding-top: 80px !important;
+  }
+
+  .profile-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .profile-photo {
+    justify-content: center;
+  }
+
+  .profile-list {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .admin-info {
+    justify-content: flex-end;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 480px) {
+  .profile-container {
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .profile-card {
+    padding: 15px;
+  }
+
+  .profile-info h2 {
+    font-size: 1.4rem;
+  }
+
+  .admin-info {
+    justify-content: center;
+  }
+
+  .logo-img {
+    max-width: 120px;
+    height: auto;
+  }
+}
+
+
+
+/* AQUÍ TIENES LOS ESTILOS DEL FORMULARIO */
+
+#form-acudiente {
+  /* Resetear cualquier flex/grid heredado */
+  display: none;
+  /* Controlado por JS */
+  float: none;
+  position: relative;
+
+  /* Estética de la caja */
+  background: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+
+  /* Tamaño */
+  width: 100%;
+  max-width: 100%;
+  /* Asegura no salirse */
+  box-sizing: border-box;
+}
+
+#form-acudiente form {
+  /* Forzar que el form sea un bloque vertical */
+  display: flex;
+  flex-direction: column;
+  /* <--- ESTA ES LA CLAVE: Todo hacia abajo */
+  gap: 15px;
+  /* Espacio entre cada input */
+}
+
+/* Los contenedores de cada campo */
+.form-group {
+  display: block;
+  width: 100%;
+  margin: 0;
+  /* El gap del form ya da el espacio */
+}
+
+/* Etiquetas */
+#form-acudiente label {
+  display: block;
+  /* Ocupa toda la línea */
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #444;
+  text-align: left;
+  /* Asegura texto a la izquierda */
+}
+
+/* Inputs */
+#form-acudiente input[type="text"],
+#form-acudiente input[type="email"] {
+  display: block;
+  width: 100%;
+  /* Ocupa todo el ancho disponible */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  /* Padding no suma al ancho */
+  font-size: 16px;
+  /* Evita zoom en iPhone */
+  height: 40px;
+}
+
+/* Botones */
+.form-buttons {
+  display: flex;
+  flex-direction: row;
+  /* Botones uno al lado del otro */
+  gap: 10px;
+  margin-top: 10px;
+
+}
+
+.boton {
+  background: #27ae60;
+  color: #fff;
+  border-radius: 6px;
+  padding: 12px 18px;
+}
+
+.btn-edit-toggle {
+  background: #27ae60;
+  color: #fff;
+  border-radius: 6px;
+  padding: 12px 18px;
+}
+
+/* Responsive móvil forzado */
+@media (max-width: 600px) {
+  .form-buttons {
+    flex-direction: column;
+    /* Botones verticales en móvil */
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+    text-align: center;
+  }
+}

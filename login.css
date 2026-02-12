@@ -1,0 +1,220 @@
+/* =========================================
+   AQUÍ TIENES LA ESTRUCTURA GENERAL
+   ========================================= */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.login-body {
+    display: flex;
+    flex-direction: column;
+    /* Hace que todo se apile verticalmente */
+    min-height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    background-color: #f4f7f6;
+    /* Fondo suave opcional */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Contenedor que empuja el footer */
+.main-wrapper {
+    flex: 1;
+    /* Ocupa todo el espacio disponible sobrante */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* =========================================
+   AQUÍ TIENES EL FORMULARIO DE LOGIN
+   ========================================= */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    width: 90%;
+    /* Responsive base */
+    margin: 40px auto;
+    /* Centrado horizontal con margen arriba/abajo */
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    font-size: 10px;
+}
+
+.form:hover {
+    transform: translateY(-5px);
+}
+
+/* Título del login */
+.heading {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* Campo de entrada */
+.field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 0.5em;
+    background-color: #ecf0f1;
+}
+
+.field i {
+    color: #7f8c8d;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.input-field::placeholder {
+    color: #95a5a6;
+}
+
+/* Botones principales del login */
+.form .btn {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button1,
+.button2 {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.button1 {
+    background-color: #3498db;
+    color: white;
+}
+
+.button1:hover {
+    background-color: #2980b9;
+}
+
+.button2 {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+.button2:hover {
+    background-color: #34495e;
+}
+
+/* Botón secundario (forgot password) */
+.button3 {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #3498db;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: block;
+    width: 100%;
+}
+
+.button3:hover {
+    color: #e74c3c;
+    text-decoration: underline;
+}
+
+/* =========================================
+   AQUÍ AJUSTAS EL FOOTER PARA EL LOGIN
+   ========================================= */
+.footer-login {
+    width: 100%;
+    margin-top: auto;
+    /* Asegura que se pegue al fondo si hay espacio */
+}
+
+/* Asegurar que el footer dentro del include no flote raro */
+.footer-login footer {
+    width: 100% !important;
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    float: none !important;
+}
+
+/* =========================================
+   DISEÑO RESPONSIVE AQUÍ
+   ========================================= */
+
+/* Tablets y iPads */
+@media (max-width: 1024px) {
+    .form {
+        margin: 60px auto;
+        /* Más espacio vertical en tablets */
+        max-width: 500px;
+        padding: 35px;
+    }
+
+    .heading {
+        font-size: 1.8rem;
+    }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+    .form {
+        width: 90%;
+        margin: 30px auto;
+        /* Menos margen en móviles */
+        padding: 20px;
+    }
+
+    .heading {
+        font-size: 1.5rem;
+    }
+
+    .input-field {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    .form .btn {
+        flex-direction: column;
+        /* Botones uno debajo del otro en muy pequeño */
+    }
+
+    .button1,
+    .button2 {
+        width: 100%;
+    }
+}

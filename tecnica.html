@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Técnica - MDKBoyacá-Taekwondo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="tienda.css">
+  <!-- Librerías externas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/script.js" defer></script>
+  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
+</head>
+<body>
+
+<!-- NAVBAR  -->
+<nav class="navbar_tienda">
+  <!-- Logo -->
+  <a href="index.php" class="logo">
+    <img src="img/logo-mdk.jpg" alt="Logo MDK Boyacá" class="logo-img" />
+  </a>
+
+  <!-- Menú colapsable -->
+  <ul class="nav-links">
+    <li><a href="index.php">Volver</a></li>
+  </ul>
+
+  <!-- Botón hamburguesa -->
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+  <main>
+    <!-- HERO TÉCNICA -->
+    <section class="hero-tecnica">
+      <div class="overlay-tecnica"></div>
+      <div class="hero-content-tecnica">
+        <h1>Técnica en MDKBoyacá-Taekwondo</h1>
+        <p>La precisión en cada movimiento es nuestra meta</p>
+      </div>
+    </section>
+
+    <!-- CONTENIDO -->
+    <section class="content-section-tecnica" data-aos="fade-up" data-aos-duration="2000">
+      <div class="container-tecnica">
+        <h2>¿Qué significa la Técnica?</h2>
+          <p>En MDKBoyacá, la técnica se desarrolla respetando las fases del desarrollo psicomotor, iniciando por las habilidades motoras en los Lions Kids, y buscando la fluidez del Taekwondo estilo Kukkiwon en sus facetas prácticas: movimientos básicos, poomsaes, combate, rompimiento y defensa personal.</p>
+
+          <p>Transformando vidas de forma holística.</p>
+      
+      </div>
+    </section>
+  </main>
+
+  <!-- Botones flotantes -->
+  <a href="https://api.whatsapp.com/send?phone=573124514555&text=Hola!%20Quiero%20más%20información."
+     class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <a href="https://www.instagram.com/mdkboyaca/"
+    class="instagram-float" target="_blank">
+    <i class="fab fa-instagram"></i>
+  </a>
+
+  <a href="https://www.facebook.com/MDKBoyaca"
+    class="facebook-float" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="social-media">
+        <p>
+          <i class="fab fa-instagram"></i>
+          <a href="https://www.instagram.com/mdkboyaca/" target="_blank" class="instagram-link">
+            @mdkboyacá
+          </a>
+        </p>
+      </div>
+
+      <div class="contact-info">
+        <p>
+          <i class="fab fa-whatsapp"></i>
+          <a href="https://wa.me/573124514555" target="_blank">
+            +57 312 4514555
+          </a>
+        </p>
+      </div>
+
+      <div class="contact-info">
+        <p>
+          <i class="fas fa-map-marker-alt"></i>
+          Calle 21 No 11 - 66, Tunja
+        </p>
+      </div>
+    </div>
+
+    <p>MDKBoyacá</p>
+    <p>Página Web by: Programador Juan Ramírez</p>
+  </footer>
+
+  <!-- Script hamburguesa -->
+<script>
+const hamburger = document.querySelector('.navbar_tienda .hamburger');
+const navLinks  = document.querySelector('.navbar_tienda .nav-links');
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+}
+</script>
+
+  <script>
+    AOS.init();
+    const swiper = new Swiper(".mySwiper", {
+      loop: true,
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+    });
+  </script>
+
+</body>
+</html>

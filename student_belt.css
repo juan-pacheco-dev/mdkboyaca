@@ -1,0 +1,28 @@
+/* === CONTENEDOR CINTURÓN === */
+.belt-display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Alineado a la izquierda para coincidir con el resto */
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.belt-img {
+    height: 200px;
+    /* Tamaño ajustado para que no sea intrusivo */
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    /* Un poco de borde redondeado */
+    /* Sombra suave para darle volumen */
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+/* Ajuste responsive para que no se vea mal en móviles */
+@media (max-width: 768px) {
+    .belt-display-container {
+        align-items: center;
+        /* En móvil centrado se ve mejor */
+    }
+}

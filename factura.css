@@ -1,0 +1,182 @@
+
+body {
+    background: #f8f9fa;
+}
+.factura-container {
+    width: 900px;
+    background: white;
+    padding: 25px;
+    margin: 20px auto;
+    border:1px solid #000;
+}
+.factura-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+.factura-header img {
+    width:120px;
+}
+.factura-separator {
+    margin:10px 0;
+    border-top:2px solid #000;
+}
+.factura-row {
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+.factura-row div {
+    width:48%;
+}
+
+label { font-weight:bold; margin-bottom:3px; display:block; }
+input, textarea {
+    width:100%;
+    padding:6px;
+    border:1px solid #000;
+    border-radius:4px;
+    font-size:14px;
+}
+textarea { height:60px; }
+
+.result-box {
+    position: absolute;
+    background: white;
+    width: 100%;
+    border: 1px solid #aaa;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.item-sel { padding: 6px; cursor: pointer; }
+.item-sel:hover { background: #e0e0e0; }
+
+.botones {
+    margin-top:20px;
+    text-align:center;
+}
+button {
+    padding:10px 20px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:15px;
+}
+button:hover { 
+    background:#084298; 
+}
+
+
+.volver {
+    padding:10px 20px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:15px;
+    text-decoration: none;
+}
+.volver:hover { background:#084298; }
+
+.mensaje-final { 
+    font-size:13px; 
+    text-align:center; 
+    margin-top:15px; 
+}
+.redes img { height:18px; margin-right:5px; }
+.redes img .facebook {
+    height: 20px;
+}
+
+
+/* 📱 Responsive para TODOS los dispositivos */
+@media (max-width: 992px) {
+    .factura-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .factura-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .factura-header .right input {
+        width: 120px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .factura-row {
+        flex-direction: column;
+    }
+
+    .factura-row div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .factura-container {
+        padding: 12px;
+    }
+
+    .factura-header img {
+        width: 90px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .botones {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .mensaje-final {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .factura-container {
+        padding: 10px;
+    }
+
+    .factura-header img {
+        width: 80px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    input, textarea {
+        font-size: 13px;
+    }
+
+    .result-box {
+        font-size: 13px;
+    }
+}
+

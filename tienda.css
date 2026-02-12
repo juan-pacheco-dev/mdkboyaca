@@ -1,0 +1,354 @@
+/* === TIENDA === */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+
+.navbar_tienda {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: none; /* Para que no limite el ancho */
+  padding: 15px 150px;
+  color: white;
+  z-index: 10;
+  border-radius: 8px;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  background: rgba(21, 101, 192, 0.3); /* Azul claro translúcido */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque */
+  box-sizing: border-box; /* Para que padding no aumente el ancho */
+}
+
+.nav-links {
+  padding-left: 40%;
+  padding-right: 10px;
+  font-size: 23px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* --- Responsive--- */
+@media (max-width: 1366px){
+
+  .navbar_tienda {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-left: 5px;
+    padding-right: 6px;
+    box-sizing: border-box;
+    width: 100vw;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .navbar_tienda > * {
+    min-width: 0;
+    white-space: nowrap;
+    font-size: 1rem; /* O prueba 0.95rem */
+  }
+
+  .login-button{
+    min-width: 120px;   
+    font-size: 1rem;
+    display: inline-block;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* --- RESPONSIVE TABLETAS --- */
+  @media (max-width: 1024px) {
+    .hero {
+      height: 70vh;
+    }
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+    }
+    .swiper {
+      height: 400px;
+    }
+
+    .boton-invitacion {
+      padding: 28px 30px;
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+  }
+}
+
+/* --- RESPONSIVE CELULARES PEQUEÑOS --- */
+@media (max-width: 480px) {
+  .hero {
+    height: 40vh;
+  }
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+  .swiper {
+    height: 200px;
+  }
+
+  .boton-invitacion {
+    padding: 12px 10px;
+    font-size: 0.93rem;
+    margin-top: 4px;
+  }
+}
+
+/* --- BOTÓN HAMBURGUESA --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  z-index: 10001; /* Encima de todo */
+  position: relative;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* Animación X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- RESPONSIVE MENÚ HAMBURGUESA --- */
+@media (max-width: 768px) {
+
+  .navbar_tienda {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+
+    /* ✅ FIJAR ARRIBA */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    overflow: visible !important;
+    background: rgba(0,0,0,0.75); /* opcional pero queda bonito */
+    backdrop-filter: blur(6px);
+  }
+
+  /* ✅ Empujar contenido hacia abajo para que no se esconda */
+  body {
+    padding-top: 70px !important;
+  }
+
+  .hamburger {
+    display: flex;
+    margin-left: 10px;
+  }
+
+  .logo {
+    flex: 1;
+  }
+
+  .login-button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    z-index: 10002;
+    position: relative;
+  }
+
+  .nav-links {
+    position: fixed; /* se despega del nav */
+    top: 70px; /* menu abajo del nav */
+    right: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    flex-direction: column;
+    align-items: flex-start;
+    width: 250px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0;
+    border-radius: 0 0 0 10px;
+    z-index: 99999; /* por encima del hero */
+  }
+
+  .nav-links.open {
+    max-height: 500px;
+    padding: 15px;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .nav-links li a {
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+
+
+
+.tienda-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.tienda-container h2 {
+  font-size: 2rem;
+  color: #1565c0;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #3498db;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+/* Grid de productos */
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-card:hover {
+  transform: translateY(-8px);
+}
+
+.producto-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.producto-info {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.producto-info h3 {
+  margin: 0 0 8px;
+  color: #2c3e50;
+}
+
+.producto-info p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.precio {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1565c0;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Botón Comprar */
+.btn-comprar {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background: #1e8449;
+}
+
+/* Footer */
+footer {
+  margin-top: 50px;
+  background: #0d47a1;
+  color: #e3f2fd;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  border-top: 2px solid #1565c0;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .producto-card img {
+    height: 180px;
+  }
+  .producto-info h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tienda-container h2 {
+    font-size: 1.5rem;
+  }
+  .producto-card img {
+    height: 160px;
+  }
+  .precio {
+    font-size: 1rem;
+  }
+}
+
+

@@ -1,0 +1,442 @@
+/* ========= CONTENEDOR GENERAL ========== */
+.evento-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ========= HEADER ========== */
+.evento-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.evento-header h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+
+.evento-header-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ========= GRID PRINCIPAL ========== */
+.eventos-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* ✅ Esto permite bajar cuando no cabe */
+  align-items: flex-start;
+}
+
+.evento-list {
+  flex: 2 1 600px; 
+  min-width: 280px;
+}
+
+.evento-form {
+  flex: 1 1 350px;
+  min-width: 280px;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ========= LISTA EVENTOS ========== */
+.evento-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.evento-info { flex: 1; }
+
+.evento-nombre {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.evento-sub {
+  color: #555;
+  font-size: .95rem;
+  margin-bottom: 4px;
+}
+
+.evento-desc {
+  font-size: .85rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* BOTONES DE EDICIÓN */
+.evento-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ========= FORMULARIO ========== */
+.evento-form label {
+  margin-top: 8px;
+  display: block;
+  font-weight: 600;
+}
+
+.evento-form input,/* eventos.css — versión corregida y forzada a columnas en responsive */
+
+/* ======= reset útil ======= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* ========= CONTENEDOR GENERAL ========== */
+.evento-wrapper,
+.eventos-grid { /* admite ambos nombres si cambiastes el HTML */ 
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* ========= HEADER ========== */
+.evento-header {
+  width: 100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+.evento-header h2 { margin:0; font-size:1.6rem; font-weight:700; }
+.evento-header-buttons{ display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ========= LISTA + FORM (FLEX CHILDREN) ========== */
+.evento-list {
+  flex: 2 1 600px;
+  min-width: 260px;
+  max-width: 900px;
+  width: 100%;
+  order: 0;
+  min-width: 0; /* crucial para evitar overflow de texto largo */
+}
+
+.evento-form {
+  flex: 1 1 340px;
+  min-width: 260px;
+  max-width: 420px;
+  width: 100%;
+  order: 1;
+  min-width: 0;
+}
+
+/* tarjeta base */
+.card {
+  background:#fff;
+  padding:16px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  width:100%;
+  overflow:hidden;
+}
+
+/* ========= LISTA DE EVENTOS ========= */
+.evento-item {
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  justify-content:space-between;
+  border-bottom:1px solid #eaeaea;
+  padding:12px 0;
+  flex-wrap:wrap; /* permite que la documentación baje */
+  min-width: 0;
+}
+.evento-info { flex:1 1 60%; min-width:0; }
+.evento-nombre { font-size:1.12rem; font-weight:700; margin-bottom:4px; word-break:break-word; }
+.evento-sub { color:#555; font-size:.95rem; margin-bottom:6px; white-space:normal; }
+.evento-desc { color:#666; font-size:.9rem; font-style:italic; }
+
+/* botones al lado derecho */
+.evento-actions {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex:0 0 auto;
+}
+
+
+
+/* botonitos */
+.btn-outline {
+  background:transparent;
+  border:1px solid #1976d2;
+  color:#1976d2;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.btn-danger {
+  background:#d32f2f;
+  color:#fff;
+  padding:8px 10px;
+  border-radius:6px;
+  border:0;
+  cursor:pointer;
+}
+.small { font-size:.9rem; padding:6px 8px; }
+
+
+.button-volver {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    box-shadow: #111;
+}
+
+.volver {
+    padding:10px 20px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:15px;
+    text-decoration: none;
+}
+.volver:hover { background:#084298; }
+
+
+/* ========= FORMULARIO (APILADO) ========= */
+/* Forzar que el form coloque cada label+campo en su propia fila (columna) */
+.evento-form form {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+/* etiqueta y campos */
+.evento-form label { display:block; font-weight:600; margin-top:6px; }
+.evento-form input[type="text"],
+.evento-form input[type="date"],
+.evento-form textarea,
+.evento-form input[type="hidden"]{
+  width:100%;
+  padding:9px;
+  border-radius:6px;
+  border:1px solid #cfcfcf;
+  font-size:1rem;
+  background:#fff;
+  box-sizing:border-box;
+}
+.evento-form textarea { min-height:120px; resize:vertical; }
+
+/* acciones del form: botones guardad/limpiar */
+.form-actions {
+  display:flex;
+  gap:10px;
+  margin-top:6px;
+  align-items:center;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+}
+.form-actions .btn-primary {
+  background:#1976d2;
+  color:#fff;
+  border:0;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.form-actions .btn-secondary {
+  background:#eee;
+  color:#111;
+  border:0;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* evita overflow por textos largos en children flex */
+.evento-item * { max-width:100%; }
+
+/* ========= BREAKPOINTS — fuerza stacking y campos en columna ========= */
+
+/* Tablet / pantallas medianas: cuando no hay espacio, ponemos uno sobre otro */
+@media (max-width: 992px) {
+  .evento-wrapper, .eventos-grid { flex-direction:column; gap:14px; padding:14px; }
+  .evento-list, .evento-form { width:100%; flex:none; order: initial; }
+  .evento-actions { width:100%; justify-content:flex-start; }
+  .evento-item { flex-direction:column; align-items:flex-start; gap:8px; }
+  .form-actions { justify-content:flex-start; }
+  .form-actions .btn-primary, .form-actions .btn-secondary { width:auto; }
+}
+
+/* Móviles: botones en columna, inputs grandes */
+@media (max-width: 768px) {
+  .evento-header { flex-direction:column; text-align:center; gap:8px; }
+  .evento-header-buttons { justify-content:center; width:100%; }
+  .form-actions { flex-direction:column; align-items:stretch; }
+  .form-actions .btn-primary, .form-actions .btn-secondary { width:100%; }
+  .evento-form textarea { min-height:100px; }
+}
+
+/* Pantallas pequeñas (teléfonos pequeños) */
+@media (max-width: 480px) {
+  .evento-nombre { font-size:1.05rem; }
+  .evento-sub { font-size:.9rem; }
+  .evento-desc { font-size:.85rem; }
+  .evento-actions button { width:100%; }
+  .evento-form input, .evento-form textarea { font-size:.95rem; padding:8px; }
+  .evento-form textarea { min-height:90px; }
+}
+
+/* Ultra small */
+@media (max-width: 360px) {
+  .evento-header h2 { font-size:1.2rem; }
+  .btn-outline, .btn-danger, .form-actions .btn-primary, .form-actions .btn-secondary { padding:8px; font-size:.95rem; }
+}
+
+.evento-form textarea {
+  width: 100%;
+  margin: 5px 0 10px;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* BOTONES RESPONSIVE */
+.btn-primary,
+.btn-secondary {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+/* ========= BREAKPOINTS ========== */
+
+
+@media(max-width: 768px) {
+  .eventos-grid {
+    flex-direction: column;
+  }
+
+  .evento-list,
+  .evento-form {
+    width: 100%;
+  }
+}
+
+
+/* ✅ 1200px */
+@media(max-width: 1200px) {
+  .eventos-grid {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+/* ✅ 992px tablet grande */
+@media(max-width: 992px) {
+  .eventos-grid {
+    grid-template-columns: 1fr;
+  }
+  .evento-btns {
+    justify-content: flex-start;
+  }
+}
+
+/* ✅ 768px tablet vertical */
+@media(max-width: 768px) {
+  .evento-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .evento-header-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  input, textarea {
+    font-size: 0.95rem;
+  }
+}
+
+/* ✅ 600px celular normal */
+@media(max-width: 600px) {
+  .evento-nombre { font-size: 1.05rem; }
+  .evento-sub { font-size: .9rem; }
+  .evento-desc { font-size: .8rem; }
+
+  .evento-btns {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* ✅ 480px celular pequeño */
+@media(max-width: 480px) {
+  .evento-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .evento-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .evento-btns button {
+    width: 48%;
+  }
+
+  textarea {
+    height: 90px;
+  }
+}
+
+/* ✅ 360px celulares mini tipo SE */
+@media(max-width: 360px) {
+  .evento-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .evento-btns button {
+    width: 100%;
+  }
+
+  input, textarea {
+    font-size: .9rem;
+  }
+}
