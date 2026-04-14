@@ -100,14 +100,12 @@
             <div class="form-group">
               <label>Meses pagados</label>
               <select id="meses-pagados" multiple size="5" style="width:100%;">
-                <!-- Opciones se llenan por JS o PHP -->
               </select>
             </div>
 
             <div class="form-group">
               <label>Meses no pagados</label>
               <select id="meses-no-pagados" multiple size="5" style="width:100%;">
-                <!-- Opciones se llenan por JS o PHP -->
               </select>
             </div>
 
@@ -116,7 +114,6 @@
               <button type="button" class="button-filter reset" id="btnMarcarNoPagado">← Marcar como no pagado</button>
             </div>
 
-            <!-- Aquí guardaremos los meses pagados para PHP -->
             <input type="hidden" name="meses_pagados" id="meses-pagados-hidden">
           </div>
 
@@ -224,9 +221,7 @@
     </div>
   </div>
 
-  <!-- =====================================
-     MODAL: LISTA DE PRODUCTOS
-===================================== -->
+  <!-- MODAL: LISTA DE PRODUCTOS -->
   <div class="modal fade" id="modalProductos" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -235,11 +230,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-
           <div class="text-end mb-3">
             <button class="btn btn-success" onclick="abrirModalNuevoProducto()">+ Agregar Producto</button>
           </div>
-
           <div id="productos-contenido" class="table-responsive text-center">
             <p class="text-muted">Cargando...</p>
           </div>
@@ -248,37 +241,27 @@
     </div>
   </div>
 
-
-  <!-- =====================================
-     MODAL: FORMULARIO (CREAR / EDITAR)
-===================================== -->
+  <!-- MODAL: FORMULARIO PRODUCTO -->
   <div class="modal fade" id="modalProductoForm" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-
         <div class="modal-header">
           <h5 class="modal-title" id="modalProductoFormLabel">Producto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-
         <div class="modal-body">
           <form id="formProducto" enctype="multipart/form-data">
-
             <input type="hidden" name="id" id="producto-id">
             <input type="hidden" name="accion" value="guardar">
-
             <input type="hidden" name="imagen_actual" id="producto-imagen-actual">
-
             <div class="mb-3">
               <label class="form-label">Nombre</label>
               <input type="text" class="form-control" id="producto-nombre" name="nombre" required>
             </div>
-
             <div class="mb-3">
               <label class="form-label">Descripción</label>
               <textarea class="form-control" id="producto-descripcion" name="descripcion" rows="3"></textarea>
             </div>
-
             <div class="row">
               <div class="col-6 mb-3">
                 <label class="form-label">Precio</label>
@@ -289,144 +272,20 @@
                 <input type="number" class="form-control" id="producto-stock" name="stock" required>
               </div>
             </div>
-
             <div class="mb-3">
               <label class="form-label">Imagen (Opcional)</label>
               <input type="file" class="form-control" id="producto-imagen" name="imagen" accept="image/*">
             </div>
-
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
             </div>
-
           </form>
         </div>
-
       </div>
     </div>
   </div>
 
-
-
-  <!-- =====================================
-     JAVASCRIPT
-===================================== -->
-  <script>
-
-    function abrirModalProductos() {
-      new bootstrap.Modal(document.getElementById('modalProductos')).show();
-      cargarProductos();
-    }
-
-    function cargarProductos() {
-      const cont = document.getElementById('productos-contenido');
-      cont.innerHTML = '<div class="spinner-border text-primary mt-3"></div>';
-
-      fetch('php/productos_ajax.php')
-        .then(r => r.text())
-        .then(html => cont.innerHTML = html)
-        .catch(() => cont.innerHTML = '<p class="text-danger">Error cargando lista.</p>');
-    }
-
-    function abrirModalNuevoProducto() {
-      document.getElementById('formProducto').reset();
-      document.getElementById('producto-id').value = '';
-      document.getElementById('producto-imagen-actual').value = '';
-
-      document.getElementById('modalProductoFormLabel').textContent = 'Agregar Producto';
-
-      new bootstrap.Modal(document.getElementById('modalProductoForm')).show();
-    }
-
-    function editarProducto(id) {
-
-      const fd = new FormData();
-      fd.append('id', id);
-
-      fetch('php/producto_obtener.php', {
-        method: 'POST',
-        body: fd
-      })
-        .then(r => r.json())
-        .then(data => {
-          if (!data.success) return alert(data.message);
-
-          const p = data.data;
-
-          document.getElementById('producto-id').value = p.ID_PRODUCTO;
-          document.getElementById('producto-nombre').value = p.NOMBRE;
-          document.getElementById('producto-descripcion').value = p.DESCRIPCION;
-          document.getElementById('producto-precio').value = p.PRECIO;
-          document.getElementById('producto-stock').value = p.STOCK;
-
-          // Guardar imagen actual
-          document.getElementById('producto-imagen-actual').value = p.IMAGEN;
-
-          document.getElementById('modalProductoFormLabel').textContent = 'Editar Producto';
-
-          new bootstrap.Modal(document.getElementById('modalProductoForm')).show();
-        })
-        .catch(() => alert("Error al obtener producto"));
-    }
-
-
-    document.getElementById('formProducto').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const fd = new FormData(this);
-
-      fetch('php/producto_guardar.php', {
-        method: 'POST',
-        body: fd
-      })
-        .then(r => r.text())
-        .then(text => {
-          try {
-            const data = JSON.parse(text);
-
-            if (data.success) {
-              alert(data.message);
-
-              bootstrap.Modal.getInstance(
-                document.getElementById('modalProductoForm')
-              ).hide();
-
-              cargarProductos();
-            } else {
-              alert("Error: " + data.message);
-            }
-
-          } catch (e) {
-            console.error(text);
-            alert("Error inesperado.");
-          }
-        });
-    });
-
-
-    function eliminarProducto(id) {
-      if (!confirm("¿Eliminar producto?")) return;
-
-      const fd = new FormData();
-      fd.append('accion', 'eliminar');
-      fd.append('id', id);
-
-      fetch('php/producto_guardar.php', {
-        method: 'POST',
-        body: fd
-      })
-        .then(r => r.json())
-        .then(data => {
-          alert(data.message);
-          if (data.success) cargarProductos();
-        });
-    }
-
-  </script>
-
-
-
-  <!-- Modal Inteligente: Seleccionar mes a pagar -->
+  <!-- Modal: Seleccionar mes a pagar -->
   <div class="modal fade" id="modalPagarMes" tabindex="-1" aria-labelledby="modalPagarMesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" id="modalPagarMesContent">
@@ -442,124 +301,178 @@
     </div>
   </div>
 
-  <script>
-    function togglePago(id) {
-      fetch(`php/toggle_pago.php?id=${id}`)
-        .then(() => location.reload());
-    }
-    function pagarModal(idPersona) {
-      const fd = new FormData();
-      fd.append('id', idPersona);
-      fd.append('type', 'meses_pendientes');
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script>
+    // ── Historial cinturones ──────────────────────────────────────────────────
+    function verHistorialCinturones(idPersona) {
+      const cont = document.getElementById('historial-cinturones-contenido');
+      cont.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-secondary"></div></div>';
+      fetch('php/historial_cinturon_ajax.php?id=' + idPersona)
+        .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+        .then(html => {
+          cont.innerHTML = html;
+          const modalEl = document.getElementById('modalHistorialCinturones');
+          if (!modalEl.classList.contains('show')) new bootstrap.Modal(modalEl).show();
+        })
+        .catch(err => { cont.innerHTML = '<p class="text-danger">No se pudo cargar el historial.<br>' + err.message + '</p>'; });
+    }
+
+    function histAgregar(idPersona) {
+      const fecha    = document.getElementById('hist-nueva-fecha').value;
+      const cinturon = document.getElementById('hist-nuevo-cinturon').value;
+      const recibo   = document.getElementById('hist-nuevo-recibo').value;
+      const promoc   = document.getElementById('hist-nueva-promocion').value;
+      if (!fecha || !cinturon) { alert('La fecha y el grado son obligatorios.'); return; }
+      const fd = new FormData();
+      fd.append('action', 'agregar');
+      fd.append('id_persona', idPersona);
+      fd.append('id_cinturon', cinturon);
+      fd.append('fecha_obtencion', fecha);
+      fd.append('numero_recibo', recibo);
+      fd.append('promocion', promoc);
+      fetch('php/historial_cinturon_ajax.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) { verHistorialCinturones(idPersona); }
+          else { alert('Error: ' + (data.message || 'No se pudo agregar.')); }
+        })
+        .catch(() => alert('Error de red al agregar grado.'));
+    }
+
+    function histEliminar(idHistorial) {
+      if (!confirm('¿Eliminar este registro de grado?')) return;
+      const fd = new FormData();
+      fd.append('action', 'eliminar');
+      fd.append('id_historial', idHistorial);
+      fetch('php/historial_cinturon_ajax.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            const row = document.getElementById('hist-row-' + idHistorial);
+            if (row) row.remove();
+            const tbody = document.querySelector('#tabla-historial-cinturones tbody');
+            if (tbody && tbody.rows.length === 0) {
+              document.querySelector('#historial-cinturones-contenido .table-responsive').outerHTML =
+                '<p class="text-muted text-center mt-2">No hay historial de grados registrado.</p>';
+            }
+          } else { alert('Error al eliminar el registro.'); }
+        })
+        .catch(() => alert('Error de red al eliminar.'));
+    }
+
+    // ── Productos ─────────────────────────────────────────────────────────────
+    function abrirModalProductos() {
+      new bootstrap.Modal(document.getElementById('modalProductos')).show();
+      cargarProductos();
+    }
+    function cargarProductos() {
+      const cont = document.getElementById('productos-contenido');
+      cont.innerHTML = '<div class="spinner-border text-primary mt-3"></div>';
+      fetch('php/productos_ajax.php')
+        .then(r => r.text())
+        .then(html => cont.innerHTML = html)
+        .catch(() => cont.innerHTML = '<p class="text-danger">Error cargando lista.</p>');
+    }
+    function abrirModalNuevoProducto() {
+      document.getElementById('formProducto').reset();
+      document.getElementById('producto-id').value = '';
+      document.getElementById('producto-imagen-actual').value = '';
+      document.getElementById('modalProductoFormLabel').textContent = 'Agregar Producto';
+      new bootstrap.Modal(document.getElementById('modalProductoForm')).show();
+    }
+    function editarProducto(id) {
+      const fd = new FormData(); fd.append('id', id);
+      fetch('php/producto_obtener.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success) return alert(data.message);
+          const p = data.data;
+          document.getElementById('producto-id').value = p.ID_PRODUCTO;
+          document.getElementById('producto-nombre').value = p.NOMBRE;
+          document.getElementById('producto-descripcion').value = p.DESCRIPCION;
+          document.getElementById('producto-precio').value = p.PRECIO;
+          document.getElementById('producto-stock').value = p.STOCK;
+          document.getElementById('producto-imagen-actual').value = p.IMAGEN;
+          document.getElementById('modalProductoFormLabel').textContent = 'Editar Producto';
+          new bootstrap.Modal(document.getElementById('modalProductoForm')).show();
+        })
+        .catch(() => alert('Error al obtener producto'));
+    }
+    document.getElementById('formProducto').addEventListener('submit', function (e) {
+      e.preventDefault();
+      fetch('php/producto_guardar.php', { method: 'POST', body: new FormData(this) })
+        .then(r => r.text())
+        .then(text => {
+          try {
+            const data = JSON.parse(text);
+            if (data.success) {
+              alert(data.message);
+              bootstrap.Modal.getInstance(document.getElementById('modalProductoForm')).hide();
+              cargarProductos();
+            } else { alert('Error: ' + data.message); }
+          } catch (e) { console.error(text); alert('Error inesperado.'); }
+        });
+    });
+    function eliminarProducto(id) {
+      if (!confirm('¿Eliminar producto?')) return;
+      const fd = new FormData(); fd.append('accion', 'eliminar'); fd.append('id', id);
+      fetch('php/producto_guardar.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => { alert(data.message); if (data.success) cargarProductos(); });
+    }
+
+    // ── Pagos ──────────────────────────────────────────────────────────────────
+    function togglePago(id) { fetch('php/toggle_pago.php?id=' + id).then(() => location.reload()); }
+    function pagarModal(idPersona) {
+      const fd = new FormData(); fd.append('id', idPersona); fd.append('type', 'meses_pendientes');
       fetch('php/ajax_handler.php', { method: 'POST', body: fd })
         .then(r => r.json())
         .then(data => {
-          if (!data.success) {
-            pagarMesDirecto(idPersona);
-            return;
-          }
+          if (!data.success) { pagarMesDirecto(idPersona); return; }
           const meses = data.meses || [];
-          if (meses.length === 0) {
-            pagarMesDirecto(idPersona);
-            return;
-          } else if (meses.length === 1) {
-            pagarMes(idPersona, meses[0]);
-            return;
-          } else {
-            const listDiv = document.getElementById('modalPagarMesList');
-            listDiv.innerHTML = '';
-            meses.forEach(m => {
-              const [yr, mo] = m.split('-');
-              const date = new Date(parseInt(yr), parseInt(mo) - 1, 1);
-              const nombreMes = date.toLocaleString('es-ES', { month: 'long' });
-              const btn = document.createElement('button');
-              btn.className = 'button-filter';
-              btn.style.display = 'block';
-              btn.style.width = '100%';
-              btn.style.marginBottom = '8px';
-              btn.textContent = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1) + '/' + yr;
-              btn.onclick = () => { pagarMes(idPersona, m); };
-              listDiv.appendChild(btn);
-            });
-            document.getElementById('modalPagarMesInfo').style.display = 'none';
-            listDiv.style.display = 'block';
-            const modal = new bootstrap.Modal(document.getElementById('modalPagarMes'));
-            modal.show();
-          }
+          if (meses.length === 0) { pagarMesDirecto(idPersona); return; }
+          if (meses.length === 1) { pagarMes(idPersona, meses[0]); return; }
+          mostrarListaMeses(idPersona, meses);
         })
-        .catch(err => {
-          console.error(err);
-          pagarMesDirecto(idPersona);
-        });
+        .catch(err => { console.error(err); pagarMesDirecto(idPersona); });
     }
-
+    function mostrarListaMeses(idPersona, meses) {
+      const listDiv = document.getElementById('modalPagarMesList');
+      listDiv.innerHTML = '';
+      meses.forEach(m => {
+        const [yr, mo] = m.split('-');
+        const nombre = new Date(+yr, +mo - 1, 1).toLocaleString('es-ES', { month: 'long' });
+        const btn = document.createElement('button');
+        btn.className = 'button-filter'; btn.style.cssText = 'display:block;width:100%;margin-bottom:8px;';
+        btn.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1) + '/' + yr;
+        btn.onclick = () => pagarMes(idPersona, m);
+        listDiv.appendChild(btn);
+      });
+      document.getElementById('modalPagarMesInfo').style.display = 'none';
+      listDiv.style.display = 'block';
+      new bootstrap.Modal(document.getElementById('modalPagarMes')).show();
+    }
     function pagarMes(idPersona, mes) {
-      const fd = new FormData();
-      fd.append('id', idPersona);
-      fd.append('type', 'pago');
-      fd.append('mes', mes);
-
+      const fd = new FormData(); fd.append('id', idPersona); fd.append('type', 'pago'); fd.append('mes', mes);
       fetch('php/ajax_handler.php', { method: 'POST', body: fd })
         .then(r => r.json())
-        .then(resp => {
-          if (resp.success) {
-            location.reload();
-          } else {
-            alert('Error al registrar pago: ' + (resp.message || ''));
-          }
-        })
+        .then(resp => { if (resp.success) location.reload(); else alert('Error al registrar pago: ' + (resp.message || '')); })
         .catch(() => alert('Error de red al marcar pago.'));
     }
-
     function pagarMesDirecto(idPersona) {
-      const fd = new FormData();
-      fd.append('id', idPersona);
-      fd.append('type', 'pago');
-
+      const fd = new FormData(); fd.append('id', idPersona); fd.append('type', 'pago');
       fetch('php/ajax_handler.php', { method: 'POST', body: fd })
         .then(r => r.json())
         .then(resp => {
-          if (resp.success) {
-            location.reload();
-          } else if (resp.multiple_pending) {
-            const meses = resp.meses || [];
-            const listDiv = document.getElementById('modalPagarMesList');
-            listDiv.innerHTML = '';
-            meses.forEach(m => {
-              const [yr, mo] = m.split('-');
-              const date = new Date(parseInt(yr), parseInt(mo) - 1, 1);
-              const nombreMes = date.toLocaleString('es-ES', { month: 'long' });
-              const btn = document.createElement('button');
-              btn.className = 'button-filter';
-              btn.style.display = 'block';
-              btn.style.width = '100%';
-              btn.style.marginBottom = '8px';
-              btn.textContent = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1) + '/' + yr;
-              btn.onclick = () => { pagarMes(idPersona, m); };
-              listDiv.appendChild(btn);
-            });
-            document.getElementById('modalPagarMesInfo').style.display = 'none';
-            listDiv.style.display = 'block';
-            const modal = new bootstrap.Modal(document.getElementById('modalPagarMes'));
-            modal.show();
-          } else {
-            alert('No se pudo procesar el pago: ' + (resp.message || ''));
-          }
+          if (resp.success) location.reload();
+          else if (resp.multiple_pending) mostrarListaMeses(idPersona, resp.meses || []);
+          else alert('No se pudo procesar el pago: ' + (resp.message || ''));
         })
         .catch(() => alert('Error de red al marcar pago.'));
     }
-  </script>
 
-
-
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  <script>
-    // =============  =============
+    // ── Estudiante modal ───────────────────────────────────────────────────────
     function abrirModalNuevo() { document.getElementById('modal-titulo').textContent = 'Agregar Estudiante'; document.getElementById('form-action').value = 'guardar_estudiante'; document.getElementById('form-estudiante').reset(); limpiarEventos(); initDiasContainer(1); document.getElementById('modal-agregar-estudiante').style.display = 'flex'; }
     function abrirModalEditar(id) { window.location = 'admin.php?edit=' + id; }
     function cerrarModal() { window.location = 'admin.php'; }
@@ -573,11 +486,7 @@
     function limpiarEventos() { eventosCont.innerHTML = ''; eventosJson.value = '[]'; }
     function syncEventos() {
       const nodes = eventosCont.querySelectorAll('.evento-item');
-      const items = Array.from(nodes).map(div => ({
-        nombre: (div.querySelector('.ev-nombre')?.value || '').trim(),
-        fecha: div.querySelector('.ev-fecha')?.value || '',
-        medalla: (div.querySelector('.ev-medalla')?.value || '').trim()
-      }));
+      const items = Array.from(nodes).map(div => ({ nombre: (div.querySelector('.ev-nombre')?.value || '').trim(), fecha: div.querySelector('.ev-fecha')?.value || '', medalla: (div.querySelector('.ev-medalla')?.value || '').trim() }));
       eventosJson.value = JSON.stringify(items);
     }
     document.getElementById('agregar-evento-btn').addEventListener('click', () => { const wrap = document.createElement('div'); wrap.className = 'evento-item'; wrap.style.marginBottom = '10px'; wrap.innerHTML = `<div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;"><div class="form-group"><label>Nombre</label><input class="ev-nombre" placeholder="Nombre del evento"></div><div class="form-group"><label>Fecha</label><input type="date" class="ev-fecha" value="<?= date('Y-m-d') ?>"></div><div class="form-group"><label>Medalla</label><input class="ev-medalla" placeholder="Oro/Plata/Bronce/-"></div><div class="form-group" style="display:flex;align-items:end;"><button type="button" class="button-filter reset ev-del">Quitar</button></div></div>`; eventosCont.appendChild(wrap); wrap.querySelector('.ev-del').addEventListener('click', () => { wrap.remove(); syncEventos(); }); wrap.querySelectorAll('input').forEach(i => i.addEventListener('input', syncEventos)); syncEventos(); });
@@ -597,8 +506,6 @@
           document.getElementById('fecha-nacimiento').value = <?= json_encode((string) $edit_data['FECHA_NACIMIENTO']) ?>;
           document.getElementById('cinturon-actual').value = <?= json_encode((int) $edit_data['ID_CINTURON']) ?>;
           document.getElementById('dan').value = <?= json_encode($edit_data['DAN'] === null ? '' : (string) (int) $edit_data['DAN']) ?>;
-
-          // --- Precargar nuevos campos ---
           document.getElementById('fecha-inicio').value = <?= json_encode((string) ($edit_data['FECHA_INICIO'] ?? '')) ?>;
           document.getElementById('lugar-nacimiento').value = <?= json_encode((string) ($edit_data['LUGAR_NACIMIENTO'] ?? '')) ?>;
           document.getElementById('direccion').value = <?= json_encode((string) ($edit_data['DIRECCION'] ?? '')) ?>;
@@ -608,16 +515,12 @@
           document.getElementById('eps').value = <?= json_encode((string) ($edit_data['EPS'] ?? '')) ?>;
           document.getElementById('intensidad-horaria').value = <?= json_encode((string) ($edit_data['INTENSIDAD_HORARIA'] ?? '')) ?>;
           document.getElementById('precio-mensual').value = <?= json_encode((string) ($edit_data['PRECIO_MENSUAL'] ?? '')) ?>;
-
           document.getElementById('dia-pago').value = <?= json_encode((string) ($edit_data['DIA_PAGO'] ?? '1')) ?>;
-
-
           document.getElementById('nombre-acudiente').value = <?= json_encode((string) ($edit_data['ACUDIENTE_NOMBRE_COMPLETO'] ?? '')) ?>;
           document.getElementById('empresa-acudiente').value = <?= json_encode((string) ($edit_data['ACUDIENTE_EMPRESA'] ?? '')) ?>;
           document.getElementById('cargo-acudiente').value = <?= json_encode((string) ($edit_data['ACUDIENTE_CARGO'] ?? '')) ?>;
           document.getElementById('email-acudiente').value = <?= json_encode((string) ($edit_data['ACUDIENTE_EMAIL'] ?? '')) ?>;
           document.getElementById('celular-acudiente').value = <?= json_encode((string) ($edit_data['ACUDIENTE_CELULAR'] ?? '')) ?>;
-
           const diasStr = <?= json_encode((string) ($edit_data['DIAS_ENTRENAMIENTO'] ?? '')) ?>;
           const arr = diasStr ? diasStr.split(',').map(s => s.trim()).filter(Boolean) : [];
           const n = Math.max(1, arr.length || 1);
@@ -634,147 +537,58 @@
       initDiasContainer(1); actualizarDan();
     <?php endif; ?>
 
-
-
-
-
-    // === Cargar / recargar historial de grados por AJAX ===
-    function verHistorialCinturones(idPersona) {
-      const cont = document.getElementById('historial-cinturones-contenido');
-      cont.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-secondary"></div></div>';
-
-      fetch('php/historial_cinturon_ajax.php?id=' + idPersona)
-        .then(res => {
-          if (!res.ok) throw new Error('Error HTTP ' + res.status);
-          return res.text();
-        })
-        .then(html => {
-          cont.innerHTML = html;
-          // Solo abrir el modal si todavía no está visible
-          const modalEl = document.getElementById('modalHistorialCinturones');
-          if (!modalEl.classList.contains('show')) {
-            new bootstrap.Modal(modalEl).show();
-          }
-        })
-        .catch(err => {
-          cont.innerHTML = `<p class="text-danger">No se pudo cargar el historial.<br>${err.message}</p>`;
-        });
-    }
-
-
-    // ============= NUEVO SCRIPT AÑADIDO =============
+    // ── Búsqueda y otros ───────────────────────────────────────────────────────
     document.getElementById('search-box').addEventListener('keyup', function () {
       const filter = this.value.toLowerCase();
-      const cards = document.querySelectorAll('.student-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(filter) ? '' : 'none';
+      document.querySelectorAll('.student-card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(filter) ? '' : 'none';
       });
     });
-    function actualizarPrecio(selectElement) { const selectedOption = selectElement.options[selectElement.selectedIndex]; document.getElementById('precio-mensual').value = selectedOption.getAttribute('data-precio') || '0'; }
+    function actualizarPrecio(selectElement) { document.getElementById('precio-mensual').value = selectElement.options[selectElement.selectedIndex].getAttribute('data-precio') || '0'; }
     function toggleStatus(button, id, type) {
       button.disabled = true; button.textContent = '...';
-      const formData = new FormData();
-      formData.append('id', id); formData.append('type', type); formData.append('mes', '<?= $mes_actual ?>');
-      fetch('ajax_handler.php', { method: 'POST', body: formData })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) { button.textContent = data.newStatus; button.className = button.className.replace(/active|inactive|paid|pending/g, '') + ' ' + data.newClass; }
-          else { alert('Error: ' + data.message); location.reload(); }
-        })
-        .catch(error => { console.error('Error:', error); alert('Error de red.'); location.reload(); })
+      const fd = new FormData(); fd.append('id', id); fd.append('type', type); fd.append('mes', '<?= $mes_actual ?>');
+      fetch('ajax_handler.php', { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => { if (data.success) { button.textContent = data.newStatus; button.className = button.className.replace(/active|inactive|paid|pending/g, '') + ' ' + data.newClass; } else { alert('Error: ' + data.message); location.reload(); } })
+        .catch(() => { alert('Error de red.'); location.reload(); })
         .finally(() => { button.disabled = false; });
     }
-
-
-
   </script>
-
 
   <script>
-    // ===== MESES PAGADOS / NO PAGADOS =====
+    // ── Meses pagados / no pagados ─────────────────────────────────────────────
     const anioActual = new Date().getFullYear();
-    const MESES_LISTA = [
-      `${anioActual}-01`,
-      `${anioActual}-02`,
-      `${anioActual}-03`,
-      `${anioActual}-04`,
-      `${anioActual}-05`,
-      `${anioActual}-06`,
-      `${anioActual}-07`,
-      `${anioActual}-08`,
-      `${anioActual}-09`,
-      `${anioActual}-10`,
-      `${anioActual}-11`,
-      `${anioActual}-12`,
-    ];
-
+    const MESES_LISTA = Array.from({length:12}, (_,i) => `${anioActual}-${String(i+1).padStart(2,'0')}`);
     function formatearMes(ym) {
-      const [y, m] = ym.split("-");
-      const fecha = new Date(parseInt(y), parseInt(m) - 1, 1);
-      const nombreMes = fecha.toLocaleString("es-ES", { month: "long" });
-      return nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1) + " " + y;
+      const [y, m] = ym.split('-');
+      const n = new Date(+y, +m - 1, 1).toLocaleString('es-ES', { month: 'long' });
+      return n.charAt(0).toUpperCase() + n.slice(1) + ' ' + y;
     }
-
     function initMesesPago(mesesPagadosInicial = []) {
-      const selPagados = document.getElementById("meses-pagados");
-      const selNoPagados = document.getElementById("meses-no-pagados");
-
-      selPagados.innerHTML = "";
-      selNoPagados.innerHTML = "";
-
-      MESES_LISTA.forEach((ym) => {
-        const opt = document.createElement("option");
-        opt.value = ym;
-        opt.textContent = formatearMes(ym);
-
-        if (mesesPagadosInicial.includes(ym)) {
-          selPagados.appendChild(opt);
-        } else {
-          selNoPagados.appendChild(opt);
-        }
+      const selP = document.getElementById('meses-pagados');
+      const selN = document.getElementById('meses-no-pagados');
+      selP.innerHTML = ''; selN.innerHTML = '';
+      MESES_LISTA.forEach(ym => {
+        const opt = document.createElement('option'); opt.value = ym; opt.textContent = formatearMes(ym);
+        (mesesPagadosInicial.includes(ym) ? selP : selN).appendChild(opt);
       });
-
       syncMesesPagadosHidden();
     }
-
     function moverMeses(origenId, destinoId) {
-      const origen = document.getElementById(origenId);
-      const destino = document.getElementById(destinoId);
-      const seleccionados = Array.from(origen.selectedOptions);
-      seleccionados.forEach((opt) => destino.appendChild(opt));
+      const origen = document.getElementById(origenId), destino = document.getElementById(destinoId);
+      Array.from(origen.selectedOptions).forEach(opt => destino.appendChild(opt));
       syncMesesPagadosHidden();
     }
-
     function syncMesesPagadosHidden() {
-      const selPagados = document.getElementById("meses-pagados");
-      const hidden = document.getElementById("meses-pagados-hidden");
-      const valores = Array.from(selPagados.options).map((o) => o.value);
-      hidden.value = JSON.stringify(valores);
+      document.getElementById('meses-pagados-hidden').value =
+        JSON.stringify(Array.from(document.getElementById('meses-pagados').options).map(o => o.value));
     }
-
-    // Botones
-    document.getElementById("btnMarcarPagado").addEventListener("click", () => {
-      moverMeses("meses-no-pagados", "meses-pagados");
-    });
-
-    document.getElementById("btnMarcarNoPagado").addEventListener("click", () => {
-      moverMeses("meses-pagados", "meses-no-pagados");
-    });
-
-    // Inicializar al abrir el modal (nuevo)
-    initMesesPago([]);
-
-
-    let mesesIniciales = <?= json_encode($meses_pagados_del_estudiante ?? []); ?>;
+    document.getElementById('btnMarcarPagado').addEventListener('click', () => moverMeses('meses-no-pagados', 'meses-pagados'));
+    document.getElementById('btnMarcarNoPagado').addEventListener('click', () => moverMeses('meses-pagados', 'meses-no-pagados'));
+    const mesesIniciales = <?= json_encode($meses_pagados_del_estudiante ?? []) ?>;
     initMesesPago(mesesIniciales);
-
-
-
   </script>
-
-
-
 
 </body>
 

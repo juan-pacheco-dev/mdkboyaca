@@ -1,7 +1,7 @@
 <?php
 /**
  * historial_cinturon_ajax.php
- * GET  ?id=X           → Devuelve tabla HTML del historial ordenada por fecha ASC
+ * GET  ?id=X           → Devuelve tabla HTML del historial (sin <script>)
  * POST action=agregar  → Inserta una fila nueva
  * POST action=eliminar → Elimina una fila por ID_HISTORIAL
  */
@@ -9,7 +9,7 @@ require __DIR__ . '/config.php';
 require __DIR__ . '/auth.php';
 require_login('admin');
 
-// ── POST: agregar o eliminar ──────────────────────────────────────────────────
+// ── POST ─────────────────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json; charset=utf-8');
     $action = trim($_POST['action'] ?? '');
@@ -25,13 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
             exit;
         }
-
         $dt = DateTime::createFromFormat('Y-m-d', $fecha);
         if (!$dt) {
             echo json_encode(['success' => false, 'message' => 'Fecha inválida.']);
             exit;
         }
-
         $st = mysqli_prepare($mysqli,
             "INSERT INTO historial_cinturon (ID_PERSONA, ID_CINTURON, FECHA_OBTENCION, NUMERO_RECIBO, PROMOCION)
              VALUES (?, ?, ?, ?, ?)");
@@ -39,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ok     = mysqli_stmt_execute($st);
         $new_id = mysqli_insert_id($mysqli);
         mysqli_stmt_close($st);
-
         echo json_encode(['success' => $ok, 'new_id' => $new_id]);
         exit;
     }
@@ -62,21 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// ── GET: renderizar tabla HTML ────────────────────────────────────────────────
+// ── GET: devuelve solo HTML (sin <script>) ────────────────────────────────────
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id <= 0) {
     echo '<p class="text-danger">ID inválido.</p>';
     exit;
 }
 
-// Cinturones disponibles para el select de agregar
+// Cinturones disponibles
 $cinturones_list = [];
 $res_c = mysqli_query($mysqli, "SELECT ID_CINTURON, NOMBRE FROM cinturon ORDER BY ID_CINTURON ASC");
 while ($r = mysqli_fetch_assoc($res_c)) {
     $cinturones_list[] = $r;
 }
 
-// Historial ordenado por fecha ASC
+// Historial
 $st = mysqli_prepare($mysqli, "
     SELECT h.ID_HISTORIAL, c.NOMBRE AS CINTURON, h.FECHA_OBTENCION,
            COALESCE(h.NUMERO_RECIBO, '') AS NUMERO_RECIBO,
@@ -95,7 +92,7 @@ while ($row = mysqli_fetch_assoc($res)) {
 }
 mysqli_stmt_close($st);
 
-// ── Formulario agregar ────────────────────────────────────────────────────────
+// Formulario agregar
 echo '<div class="mb-3 p-3 border rounded bg-white">';
 echo '<h6 class="fw-bold mb-2">➕ Agregar grado</h6>';
 echo '<div class="row g-2 align-items-end">';
@@ -116,10 +113,11 @@ echo '<input type="text" id="hist-nuevo-recibo" class="form-control form-control
 echo '<div class="col-sm-2"><label class="form-label form-label-sm mb-1">Promoc.</label>';
 echo '<input type="text" id="hist-nueva-promocion" class="form-control form-control-sm" placeholder="Opcional"></div>';
 
-echo '<div class="col-sm-2"><button class="btn btn-success btn-sm w-100" onclick="histAgregar(' . $id . ')">Agregar</button></div>';
+// data-persona pasa el id al JS global sin inline onclick
+echo '<div class="col-sm-2"><button class="btn btn-success btn-sm w-100" data-persona="' . $id . '" onclick="histAgregar(this.dataset.persona)">Agregar</button></div>';
 echo '</div></div>';
 
-// ── Tabla ─────────────────────────────────────────────────────────────────────
+// Tabla
 if (count($rows) === 0) {
     echo '<p class="text-muted text-center mt-2">No hay historial de grados registrado.</p>';
 } else {
@@ -128,84 +126,24 @@ if (count($rows) === 0) {
     echo '<thead class="table-dark"><tr>';
     echo '<th>Fecha</th><th>Grado</th><th>Recibo No.</th><th>Promoc.</th><th></th>';
     echo '</tr></thead><tbody>';
-
     foreach ($rows as $row) {
-        $hid   = (int) $row['ID_HISTORIAL'];
-        $cint  = htmlspecialchars($row['CINTURON']);
+        $hid  = (int) $row['ID_HISTORIAL'];
+        $cint = htmlspecialchars($row['CINTURON']);
         $fecha = htmlspecialchars($row['FECHA_OBTENCION']);
-        $rec   = htmlspecialchars($row['NUMERO_RECIBO']);
-        $prom  = htmlspecialchars($row['PROMOCION']);
-
+        $rec  = htmlspecialchars($row['NUMERO_RECIBO']);
+        $prom = htmlspecialchars($row['PROMOCION']);
         $fechaDisplay = $fecha;
         $dt = DateTime::createFromFormat('Y-m-d', $fecha);
         if ($dt) $fechaDisplay = $dt->format('d/m/Y');
-
         echo "<tr id=\"hist-row-{$hid}\">";
         echo "<td>{$fechaDisplay}</td>";
         echo "<td>{$cint}</td>";
         echo "<td>" . ($rec  ?: '<span class="text-muted">-</span>') . "</td>";
         echo "<td>" . ($prom ?: '<span class="text-muted">-</span>') . "</td>";
-        echo "<td><button class=\"btn btn-danger btn-sm\" onclick=\"histEliminar({$hid})\" title=\"Eliminar\">✕</button></td>";
+        echo "<td><button class=\"btn btn-danger btn-sm\" data-hid=\"{$hid}\" onclick=\"histEliminar(this.dataset.hid)\" title=\"Eliminar\">✕</button></td>";
         echo "</tr>";
     }
     echo '</tbody></table></div>';
 }
-?>
-
-<script>
-function histAgregar(idPersona) {
-  const fecha    = document.getElementById('hist-nueva-fecha').value;
-  const cinturon = document.getElementById('hist-nuevo-cinturon').value;
-  const recibo   = document.getElementById('hist-nuevo-recibo').value;
-  const promoc   = document.getElementById('hist-nueva-promocion').value;
-
-  if (!fecha || !cinturon) {
-    alert('La fecha y el grado son obligatorios.');
-    return;
-  }
-
-  const fd = new FormData();
-  fd.append('action',          'agregar');
-  fd.append('id_persona',      idPersona);
-  fd.append('id_cinturon',     cinturon);
-  fd.append('fecha_obtencion', fecha);
-  fd.append('numero_recibo',   recibo);
-  fd.append('promocion',       promoc);
-
-  fetch('php/historial_cinturon_ajax.php', { method: 'POST', body: fd })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        verHistorialCinturones(idPersona);
-      } else {
-        alert('Error: ' + (data.message || 'No se pudo agregar.'));
-      }
-    })
-    .catch(() => alert('Error de red al agregar grado.'));
-}
-
-function histEliminar(idHistorial) {
-  if (!confirm('¿Eliminar este registro de grado?')) return;
-
-  const fd = new FormData();
-  fd.append('action',       'eliminar');
-  fd.append('id_historial', idHistorial);
-
-  fetch('php/historial_cinturon_ajax.php', { method: 'POST', body: fd })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        const row = document.getElementById('hist-row-' + idHistorial);
-        if (row) row.remove();
-        const tbody = document.querySelector('#tabla-historial-cinturones tbody');
-        if (tbody && tbody.rows.length === 0) {
-          document.querySelector('.table-responsive').outerHTML =
-            '<p class="text-muted text-center mt-2">No hay historial de grados registrado.</p>';
-        }
-      } else {
-        alert('Error al eliminar el registro.');
-      }
-    })
-    .catch(() => alert('Error de red al eliminar.'));
-}
-</script>
+// ── SIN <script> aquí: las funciones histAgregar/histEliminar
+//    están definidas globalmente en temp/modal_admin.php
