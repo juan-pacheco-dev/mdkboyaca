@@ -206,18 +206,18 @@
     });
   </script>
 
-  <!-- Modal: Historial de Cinturones -->
+  <!-- Modal: Historial / Registro de Grados -->
   <div class="modal fade" id="modalHistorialCinturones" tabindex="-1" aria-labelledby="modalHistorialCinturonesLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- centrado vertical -->
-      <div class="modal-content shadow-lg rounded-3 border-0"> <!-- sombra y bordes suaves -->
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content shadow-lg rounded-3 border-0">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title" id="modalHistorialCinturonesLabel">Registro De Grados</h5>
+          <h5 class="modal-title" id="modalHistorialCinturonesLabel">📋 Registro de Grados</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body bg-light">
-          <div id="historial-cinturones-contenido" class="p-3 text-center">
-            <p class="text-muted">Cargando historial...</p>
+          <div id="historial-cinturones-contenido" class="p-3">
+            <p class="text-muted text-center">Cargando historial...</p>
           </div>
         </div>
       </div>
@@ -638,20 +638,26 @@
 
 
 
-    // === Cargar historial por AJAX ===
+    // === Cargar / recargar historial de grados por AJAX ===
     function verHistorialCinturones(idPersona) {
+      const cont = document.getElementById('historial-cinturones-contenido');
+      cont.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-secondary"></div></div>';
+
       fetch('php/historial_cinturon_ajax.php?id=' + idPersona)
         .then(res => {
-          if (!res.ok) throw new Error('Error ' + res.status);
+          if (!res.ok) throw new Error('Error HTTP ' + res.status);
           return res.text();
         })
         .then(html => {
-          document.getElementById('historial-cinturones-contenido').innerHTML = html;
-          const modal = new bootstrap.Modal(document.getElementById('modalHistorialCinturones'));
-          modal.show();
+          cont.innerHTML = html;
+          // Solo abrir el modal si todavía no está visible
+          const modalEl = document.getElementById('modalHistorialCinturones');
+          if (!modalEl.classList.contains('show')) {
+            new bootstrap.Modal(modalEl).show();
+          }
         })
         .catch(err => {
-          document.getElementById('historial-cinturones-contenido').innerHTML = `<p class="text-danger">No se pudo cargar el historial.<br>${err.message}</p>`;
+          cont.innerHTML = `<p class="text-danger">No se pudo cargar el historial.<br>${err.message}</p>`;
         });
     }
 
